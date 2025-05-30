@@ -1,0 +1,191 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# 🛠️ Cursor IDE Rule: Implement Feature Flag with VWO FME SDK
+
+## 🎯 Trigger Condition
+
+When the prompt contains any of the following phrases:
+
+- "implement a feature"
+- "feature flag"
+- "gate a feature"
+- "toggle a feature"
+- "control access to a feature"
+- and "similar texts for feature flagging"
+
+---
+
+## ⏭️ Skip Condition
+
+If the prompt contains:
+
+- "already created"
+- "already implemented"
+- "existing feature flag"
+
+Get all feature flag details using tool and check for the matching feature flag and then **skip to the integration steps**.
+
+---
+
+## ❓ Clarifying Question
+
+Prompt the user:
+
+> Would you like to use the **VWO FME SDK** to implement this feature flag?
+
+If the user confirms, create the feature flag.
+Once MCP tool is done, ask If the user want to provide variation value for given variable.
+
+---
+
+## 🎯 User Response Condition
+If user wants to add a new variation value, then use tool.
+
+## 🎯 User Response Condition (after variation creation)
+After a new variation is added:
+
+1. **Attach Metric Step (Required):**
+   - Prompt the user:
+     > Would you like to select an existing metric or create a new one to attach to this feature flag?
+   
+   - If user chooses to **use available metrics**:
+     - Fetch all available metrics using the tool.
+     - If there are available metrics:
+       - Prompt the user to select which metric they want to use and update the feature-flag.
+     - If no available metrics are found:
+       - Inform the user that no metrics are available and prompt them to create a new metric.
+   
+   - If user chooses to **create a new metric**:
+     - Ask the user for the name of the new metric.
+     - update the metric to the feature-flag.
+
+   - This step is compulsory; the user must attach one metric before proceeding.
+
+2. **Rule Creation Loop:**
+
+   Enter a loop for each rule type in sequence:
+
+   1. **Rollout Rules:**
+      - Prompt: > Would you like to create a rollout rule for this feature flag? (e.g., gradual rollout)
+      - If yes: Fetch environment list using tool, ask for environment to use, ask for rule details, create the rule, ask if the rule should be enabled, and repeat this step.
+      - If no: Move to Testing/Personalize Rules.
+
+   2. **Testing/Personalize Rules:**
+      - Loop: Prompt: > Would you like to create a testing or personalize rule for this feature flag? (e.g., A/B test or targeting specific users)
+      - If yes: Ask which type (testing or personalize), get details, create the rule, ask if the rule should be enabled, and repeat this step.
+      - If no: Ask If feature flag should be enabled to start using the feature, if the user confirms then toggle the feature flag using tool.
+
+## 🔧 Integration Steps
+
+### 1. Install SDK
+If not already installed, provide an option to run the following commands:
+
+```bash
+composer require vwo/vwo-fme-php-sdk
+```
+
+---
+
+### 2. Initialize the SDK
+
+Place this early in your app lifecycle or in a dedicated setup module:
+
+```php
+use vwo\VWO;
+
+$vwoClient = VWO::init([
+  'sdkKey' => 'VWO_SDK_KEY',
+  'accountId' => 'VWO_ACCOUNT_ID',
+]);
+```
+
+> 🔁 Replace `VWO_ACCOUNT_ID` and `VWO_SDK_KEY` with actual values.
+
+---
+
+### 3. Control the Feature Using the Flag
+
+Use this in your feature logic:
+
+```php
+$userContext = ['id' => 'unique_user_id'];
+
+try {
+    $flag = $vwoClient->getFlag('feature_key', $userContext);
+    $isFeatureEnabled = $getFlag['isEnabled'];
+
+    if ($isFeatureEnabled) {
+        // Code if feature is enabled
+    } else {
+        // Fallback behavior
+    }
+} catch (Exception $e) {
+    error_log('Feature flag fetch failed: ' . $e->getMessage());
+    // Handle fallback logic
+}
+```
+
+> 🧠 Customize `'feature_key'` and `'unique_user_id'` appropriately.
+
+### 4. Optional: `getVariable` API
+
+Use this API to retrieve the value of a variable associated with a feature flag.
+
+```php
+$variableValue = $flag->getVariable('variable_key', 'default_value');
+```
+
+> Replace `variable_key` and `default_value` with appropriate values.
+
+### 5. Optional:  `getVariables` API
+
+Use this API to retrieve values of all the flag variables as an array
+
+```php
+// Get value of all the variables of the flag
+$allVariables = $flag->getVariables();
+```
+
+### 6. Optional: `trackEvent`
+
+Use this API to track a custom event with its associated properties
+
+```php
+$eventProperties = ['prop1' => 'value1', 'prop2' => 'value2'];
+
+$vwoClient->trackEvent('event_name', $userContext, $eventProperties);
+```
+
+> Replace `event_name` and `eventProperties` with actual values.
+
+### 7. Optional: `setAttribute`
+
+Use this API to set user attribute to be filter/segment reports
+
+```php
+$attributes = ['attr1' => 'value1', 'attr2' => 'value2'];
+
+$vwoClient->setAttribute($attributes, $userContext);
+```
+
+> Replace attributes with a key-value user attributes.
+
+---
+
+## 📚 Documentation
+
+Refer to the official SDK docs for advanced usage:
+👉 @https://developers.vwo.com/v2/docs/fme-php-install#/
+
+-----
+
+Refer to the official SDK documentation for details on usage and parameters.
+Use below GitHub repositories based and thier corresponding official documentation
+
+1. For Php projects:
+  - GitHub - https://github.com/wingify/vwo-fme-php-sdk
+  - Project README - https://github.com/wingify/vwo-fme-php-sdk/blob/master/README.md
+  - Official Documentation - https://developers.vwo.com/v2/docs/fme-php-install
