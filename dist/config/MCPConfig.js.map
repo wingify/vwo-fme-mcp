@@ -1,0 +1,1 @@
+{"version":3,"file":"MCPConfig.js","sourceRoot":"","sources":["../../lib/config/MCPConfig.ts"],"names":[],"mappings":";;;AAAA;;;;;;;;;;;;;;GAcG;AACH,MAAM,WAAW,GAAG,OAAO,CAAC,oBAAoB,CAAC,CAAC;AAErC,QAAA,SAAS,GAAG;IACvB,IAAI,EAAE,WAAW,CAAC,IAAI;IACtB,OAAO,EAAE,WAAW,CAAC,OAAO;CAC7B,CAAC"}
