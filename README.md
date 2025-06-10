@@ -1,6 +1,6 @@
 # MCP Server for VWO Feature Management and Experimentation SDK
 
-[![npm version](https://img.shields.io/npm/v/vwo-fme-mcp?style=for-the-badge&color=grey&logo=npm)](https://www.npmjs.com/package/vwo-fme-mcp)
+[![npm version](https://img.shields.io/npm/v/vwo-fme-mcp?style=for-the-badge&color=green&logo=npm)](https://www.npmjs.com/package/vwo-fme-mcp)
 [![License](https://img.shields.io/github/license/wingify/vwo-fme-mcp?style=for-the-badge&color=blue)](http://www.apache.org/licenses/LICENSE-2.0)
 
 ## Overview
@@ -50,6 +50,8 @@ You can use the VWO MCP server with any client that supports the MCP protocol. B
 }
 ```
 
+<img src="./assets/gifs/VWO_Cursor_MCP .gif" />
+
 4. Save your changes. If everything is set up correctly, you should see a green status indicator showing the server is active.
 
 ---
@@ -73,6 +75,8 @@ You can use the VWO MCP server with any client that supports the MCP protocol. B
   }
 }
 ```
+
+<img src="./assets/gifs/VWO_VS_Code_MCP.gif" />
 
 3. Save the settings file. The MCP server should now be available in VS Code.
 
@@ -100,6 +104,8 @@ You can use the VWO MCP server with any client that supports the MCP protocol. B
 ```
 
 4. Save the file and restart Claude Desktop. Once connected, you should see a hammer icon in the chat window, confirming the MCP server is active.
+
+<img src="./assets/gifs/VWO_Claude_MCP.gif" />
 
 ---
 
