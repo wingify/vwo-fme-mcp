@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-const checkLicenseUtil = require('./utils/CheckLicenseUtil');
+const { checkLicenseAndCopyright } = require('@wingify/util-check-license-header');
 
 console.time('Execution time for License and Copyright');
-const isSuccess = checkLicenseUtil.checkLicenseAndCopyright({
+const isSuccess = checkLicenseAndCopyright({
   year: '2025',
   author: 'Wingify Software Pvt. Ltd.',
   paths: 'lib,test,scripts',
