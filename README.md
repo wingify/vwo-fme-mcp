@@ -1,11 +1,20 @@
-# MCP Server for VWO Feature Management and Experimentation SDK
+# MCP Server for VWO Feature Management and Experimentation(FME)
 
 [![npm version](https://img.shields.io/npm/v/vwo-fme-mcp?style=for-the-badge&color=green&logo=npm)](https://www.npmjs.com/package/vwo-fme-mcp)
 [![License](https://img.shields.io/github/license/wingify/vwo-fme-mcp?style=for-the-badge&color=blue)](http://www.apache.org/licenses/LICENSE-2.0)
 
 ## Overview
 
-The VWO FME MCP is a tool that enables you to manage feature flags directly through your AI coding assistant. It integrates VWO's feature management system with AI development tools, allowing you to create, update, and control feature flags seamlessly within your coding environment.
+The VWO MCP Server for FME empowers developers to manage feature flags effortlessly within their AI coding environment. By integrating VWO’s robust feature management platform with AI development tools, it enables seamless creation, modification, and control of feature flags—streamlining workflows and accelerating feature delivery.
+<br>
+
+> You can add the VWO FME Server by simply clicking the button below. Make sure to update the VWO_ACCOUNT_ID and VWO_API_KEY environment variables before you start using it.
+
+<a href="https://cursor.com/install-mcp?name=vwo-fme-mcp&config=eyJjb21tYW5kIjoibnB4IC15IHZ3by1mbWUtbWNwQGxhdGVzdCIsImVudiI6eyJWV09fQUNDT1VOVF9JRCI6IlZXT19BQ0NPVU5UX0lEIiwiVldPX0FQSV9LRVkiOiJWV09fQVBJX0tFWSJ9fQ=">
+  <img src="https://cursor.com/deeplink/mcp-install-dark.svg" alt="Add vwo-fme-mcp MCP server to Cursor" width="170" height="40" />
+</a>
+
+---
 
 ### Key Features
 
