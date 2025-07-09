@@ -10,7 +10,7 @@ The VWO MCP Server for FME empowers developers to manage feature flags effortles
 
 > You can add the VWO FME Server by simply clicking the button below. Make sure to update the VWO_ACCOUNT_ID and VWO_API_KEY environment variables before you start using it.
 
-<a href="https://cursor.com/install-mcp?name=vwo-fme-mcp&config=eyJjb21tYW5kIjoibnB4IC15IHZ3by1mbWUtbWNwQGxhdGVzdCIsImVudiI6eyJWV09fQUNDT1VOVF9JRCI6IlZXT19BQ0NPVU5UX0lEIiwiVldPX0FQSV9LRVkiOiJWV09fQVBJX0tFWSJ9fQ=">
+<a href="https://cursor.com/install-mcp?name=vwo-fme-mcp&config=eyJjb21tYW5kIjoibnB4IC15IHZ3by1mbWUtbWNwQGxhdGVzdCIsImVudiI6eyJWV09fQUNDT1VOVF9JRCI6IlZXT19BQ0NPVU5UX0lEIiwiVldPX0FQSV9LRVkiOiJWV09fQVBJX0tFWSJ9fQ=" target="_blank">
   <img src="https://cursor.com/deeplink/mcp-install-dark.svg" alt="Add vwo-fme-mcp MCP server to Cursor" width="170" height="40" />
 </a>
 
