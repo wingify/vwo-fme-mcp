@@ -15,33 +15,34 @@
  */
 
 import { BaseTool } from '../BaseTool';
-import { GetMetricsSchema } from '../../schema/GetMetricsSchema';
 import { VWORestAPI } from '../../services/VWORestAPI';
-import { formatGenericResponse } from '../../utils/ResponseMessages';
+import { FindStaleFeatureFlagsSchema } from '../../schema/FindStaleFeatureFlagsSchema';
+import { formatTechDebtResponse } from '../../utils/ResponseMessages';
 
-export class GetMetricsTool extends BaseTool {
+export class FindStaleFeatureFlagsTool extends BaseTool {
   constructor() {
-    const name = 'GetMetrics';
-    const description =
-      'Get the complete list of all available data360 metrics that can be used across the entire VWO account (not specific feature flag data)';
-    const inputSchema = GetMetricsSchema;
-
+    const name = 'FindStaleFeatureFlags';
+    const description = 'Find unused or stale VWO FME feature flags in the codebase';
+    const inputSchema = FindStaleFeatureFlagsSchema;
     super(name, description, inputSchema);
   }
 
-  /**
-   * Get all available metrics
-   * @param args - The arguments for the tool
-   * @returns The result of the tool
-   */
-  async execute(args: { sdk: string }): Promise<any> {
-    const result = await VWORestAPI.Instance.getMetrics();
+  async execute(args: {
+    sourceFolder: string;
+    fileExtension: string;
+    repoName: string;
+    repoBranch: string;
+  }): Promise<any> {
+    const { sourceFolder, fileExtension, repoName, repoBranch } = args;
 
-    const response = formatGenericResponse(
-      `Metrics fetched successfully. Result: ${JSON.stringify(result, null, 2)}`,
-      args.sdk,
-      true,
+    const featureFlags = await VWORestAPI.Instance.getStaleFeatureFlags(
+      sourceFolder,
+      fileExtension,
+      repoName,
+      repoBranch,
     );
+
+    const response = formatTechDebtResponse(featureFlags);
     return {
       content: [
         {

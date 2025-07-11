@@ -14,56 +14,60 @@
  * limitations under the License.
  */
 
-import { FEATURE_FLAG_TYPES } from '../constants';
+import { FEATURE_FLAG_TYPES, SUPPORTED_SDK } from '../constants';
 import { z } from 'zod';
 
-export const CreateFeatureFlagRolloutAndPersonalizeRuleSchema = {
-  environmentIdOrKey: z.string(),
-  featureIdOrKey: z.string(),
-  key: z.string(),
-  name: z.string(),
-  type: z
-    .enum([FEATURE_FLAG_TYPES.FLAG_ROLLOUT, FEATURE_FLAG_TYPES.FLAG_PERSONALIZE])
-    .default(FEATURE_FLAG_TYPES.FLAG_ROLLOUT),
-  campaignData: z.object({
-    percentSplit: z
-      .number()
-      .default(100)
-      .describe('The percentage of the traffic for the rollout or personalize rule'),
-    variations: z
-      .array(
-        z.object({
-          featureVariationId: z
-            .number()
-            .describe('The feature variation id to be used for the personalize rule only'),
-        }),
-      )
-      .optional()
-      .describe('The variations to be used for the personalize rule only'),
-  }),
-};
+export const ruleSchema = z
+  .object({
+    name: z.string().describe('Name of the rule'),
+    key: z.string().describe('Unique key of the rule'),
+    type: z
+      .enum([
+        FEATURE_FLAG_TYPES.FLAG_ROLLOUT,
+        FEATURE_FLAG_TYPES.FLAG_TESTING,
+        FEATURE_FLAG_TYPES.FLAG_MULTIVARIATE,
+        FEATURE_FLAG_TYPES.FLAG_PERSONALIZE,
+      ])
+      .describe(
+        'FLAG_ROLLOUT is used to rollout the feature flag to a percentage of the users. FLAG_TESTING is used to test the feature flag with a percentage of the users. FLAG_MULTIVARIATE is used to test the feature flag with multiple variations. FLAG_PERSONALIZE is used to personalize the feature flag using single variation.',
+      ),
+    campaignData: z.object({
+      percentSplit: z
+        .number()
+        .default(100)
+        .describe(
+          'Traffic for the rule. If not provided, 100% traffic will be allocated to the rule.',
+        ),
+      variations: z
+        .array(
+          z.object({
+            percentSplit: z.number().default(50).describe('Traffic to allocate to this variation.'),
+            featureVariationId: z.number().describe('ID of the variation'),
+          }),
+        )
+        .optional(),
+    }),
+  })
+  .describe(
+    'For Rollout rule, only percentSplit is required. For Testing rule, variations are required and variations array must have at least 2 objects having featureVariationId and percentSplit. For Personalize rule, variations are required and must have exactly 1 object having featureVariationId and percentSplit.\
+    Each rule has its individual traffic allocation. If not provided, 100% traffic will be allocated to each rule. Incase of Testing rule, the traffic will be split between the variations. If not provided, 50% traffic will be allocated to each variation.',
+  );
 
-export const CreateFeatureFlagTestingAndMultivariateRuleSchema = {
-  environmentIdOrKey: z.string(),
-  featureIdOrKey: z.string(),
-  key: z.string(),
-  name: z.string(),
-  type: z
-    .enum([FEATURE_FLAG_TYPES.FLAG_TESTING, FEATURE_FLAG_TYPES.FLAG_MULTIVARIATE])
-    .default(FEATURE_FLAG_TYPES.FLAG_TESTING),
-  campaignData: z.object({
-    percentSplit: z
-      .number()
-      .default(100)
-      .describe('The percentage of the traffic to allocate to testing or multivariate rule'),
-    variations: z.array(
-      z.object({
-        percentSplit: z
-          .number()
-          .default(50)
-          .describe('The percentage of the traffic to allocate to this variation'),
-        featureVariationId: z.number(),
-      }),
-    ),
-  }),
+export const featureRuleSchema = z.object({
+  rules: z.array(ruleSchema).min(1, { message: 'At least one rule is required' }),
+});
+
+export const CreateFeatureFlagRulesSchema = {
+  environmentIdOrKey: z
+    .string()
+    .describe('Prompt the user to select the environment id or key from the list of environments.'),
+  featureIdOrKey: z
+    .string()
+    .describe('Prompt the user to select the feature id or key from the list of features.'),
+  sdk: z
+    .enum(Object.values(SUPPORTED_SDK) as [string, ...string[]])
+    .describe('Check the SDK using the file extension and select the SDK accordingly.'),
+  featureRule: featureRuleSchema.describe(
+    'Feature rule to be created for the feature flag. If not provided, create one rollout and one testing rule.',
+  ),
 };

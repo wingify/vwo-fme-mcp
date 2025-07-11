@@ -26,21 +26,24 @@ import { URL } from './constants';
 
 import { VWORestAPI } from './services/VWORestAPI';
 import {
-  BootStrapVWO,
+  AddVWORulesTool,
   CreateFeatureFlagTool,
   DeleteFeatureFlagTool,
   UpdateFeatureFlagTool,
   GetFeatureFlagTool,
   ListFeatureFlagsTool,
   ListFeatureFlagRulesTool,
-  CreateRolloutAndPersonalizeRuleTool,
-  CreateTestingAndMVTRuleTool,
+  CreateFeatureFlagRulesTool,
   GetFeatureFlagRuleTool,
-  ToggleFeatureFlagRuleTool,
+  ToggleFeatureFlagRulesTool,
   ToggleFeatureFlagTool,
   DeleteFeatureFlagRuleTool,
-  ListProjectsAndEnvironmentsTool,
+  UpdateFeatureFlagRuleTool,
+  ListProjectAndEnvironmentsTool,
   GetMetricsTool,
+  CreateFeatureFlagWithDefaultsTool,
+  FindStaleFeatureFlagsTool,
+  IntegrateSDKTool,
 } from './tools';
 
 export class VWOMCPServer {
@@ -82,25 +85,28 @@ export class VWOMCPServer {
 
   private registerTools() {
     const tools = [
-      new BootStrapVWO(),
+      new AddVWORulesTool(),
+
+      new ListProjectAndEnvironmentsTool(),
 
       new ListFeatureFlagsTool(),
       new CreateFeatureFlagTool(),
+      new CreateFeatureFlagWithDefaultsTool(),
       new GetFeatureFlagTool(),
       new UpdateFeatureFlagTool(),
       new DeleteFeatureFlagTool(),
 
-      new ListProjectsAndEnvironmentsTool(),
-
+      new CreateFeatureFlagRulesTool(),
       new ListFeatureFlagRulesTool(),
-      new CreateRolloutAndPersonalizeRuleTool(),
-      new CreateTestingAndMVTRuleTool(),
       new GetFeatureFlagRuleTool(),
-      new ToggleFeatureFlagRuleTool(),
+      new ToggleFeatureFlagRulesTool(),
+      new UpdateFeatureFlagRuleTool(),
       new ToggleFeatureFlagTool(),
       new DeleteFeatureFlagRuleTool(),
 
       new GetMetricsTool(),
+      new FindStaleFeatureFlagsTool(),
+      new IntegrateSDKTool(),
     ];
 
     tools.forEach((tool) => {

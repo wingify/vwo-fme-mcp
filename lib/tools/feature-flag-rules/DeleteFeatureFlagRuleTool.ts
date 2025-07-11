@@ -35,18 +35,16 @@ export class DeleteFeatureFlagRuleTool extends BaseTool {
     featureIdOrKey: string;
     ruleIdOrKey: string;
   }): Promise<any> {
-    console.error('Deleting feature flag rule', args);
     const result = await VWORestAPI.Instance.deleteFeatureFlagRule(
       args.environmentIdOrKey,
       args.featureIdOrKey,
       args.ruleIdOrKey,
     );
-    console.error('Feature flag rule deleted', result);
     return {
       content: [
         {
           type: 'text',
-          text: `Feature flag rule "${args.ruleIdOrKey}" deleted successfully. Result: ${JSON.stringify(result)}`,
+          text: `Feature flag rule "${args.ruleIdOrKey}" deleted successfully. Result: ${JSON.stringify(result, null, 2)}`,
         },
       ],
     };

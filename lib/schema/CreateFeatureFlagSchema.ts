@@ -15,26 +15,40 @@
  */
 
 import { z } from 'zod';
-import { FEATURE_FLAG_PERSISTENCE_TYPES } from '../constants';
+import { FEATURE_FLAG_PERSISTENCE_TYPES, SUPPORTED_SDK } from '../constants';
 
 export const CreateFeatureFlagSchema = {
-  featureKey: z.string(),
+  featureKey: z
+    .string()
+    .describe(
+      "The key of the feature flag. Should only contain alphanumeric characters and underscores. Should be self explanatory according to the user's usercase.",
+    ),
   name: z.string().optional(),
   description: z.string().optional(),
+  sdk: z
+    .enum(Object.values(SUPPORTED_SDK) as [string, ...string[]])
+    .describe(
+      'Check the language using the file extension and select the SDK from the list of supported SDKs. Prompt the user to confirm the SDK before proceeding.',
+    ),
   featureType: z
     .enum([FEATURE_FLAG_PERSISTENCE_TYPES.TEMPORARY, FEATURE_FLAG_PERSISTENCE_TYPES.PERMANENT])
     .default(FEATURE_FLAG_PERSISTENCE_TYPES.TEMPORARY),
   goals: z
     .array(
       z.object({
-        metricName: z.string(),
+        metricName: z.string().default('Default Metric MCP'),
       }),
     )
-    .optional(),
+    .optional()
+    .describe('Use default metric name if no information is provided by user related to metric.'),
   variables: z
     .array(
       z.object({
-        variableName: z.string(),
+        variableName: z
+          .string()
+          .describe(
+            'variable name should be self explanatory according to the feature key and usercase',
+          ),
         dataType: z.enum(['boolean', 'string', 'int', 'float', 'json']),
         defaultValue: z
           .boolean()
@@ -45,5 +59,5 @@ export const CreateFeatureFlagSchema = {
           ),
       }),
     )
-    .optional(),
+    .describe('Variables are used to store the data for the feature flag'),
 };

@@ -16,10 +16,12 @@
 import { GetFeatureFlagSchema } from '../../schema/GetFeatureFlagSchema';
 import { BaseTool } from '../BaseTool';
 import { VWORestAPI } from '../../services/VWORestAPI';
+import { formatFeatureFlagGetResponse } from '../../utils/ResponseMessages';
 export class GetFeatureFlagTool extends BaseTool {
   constructor() {
     const name = 'GetFeatureFlag';
-    const description = 'Get details of a feature flag';
+    const description =
+      'Get details of a specific feature flag by ID or key, including its configuration, variables, variations, rules, and associated metrics';
     const inputSchema = GetFeatureFlagSchema;
 
     super(name, description, inputSchema);
@@ -30,15 +32,14 @@ export class GetFeatureFlagTool extends BaseTool {
    * @param args - The arguments for the tool
    * @returns The result of the tool
    */
-  async execute(args: { featureIdOrKey: string | number }): Promise<any> {
-    console.error('Getting a feature flag', args);
+  async execute(args: { featureIdOrKey: string | number; sdk: string }): Promise<any> {
     const result = await VWORestAPI.Instance.getFeatureFlag(args.featureIdOrKey);
-    console.error('Feature flag', result);
+    const response = formatFeatureFlagGetResponse(args.featureIdOrKey, result, args.sdk);
     return {
       content: [
         {
           type: 'text',
-          text: `Feature flag "${args.featureIdOrKey}" get successfully. Result: ${JSON.stringify(result)}`,
+          text: response,
         },
       ],
     };

@@ -16,6 +16,7 @@
 import { ListFeatureFlagsSchema } from '../../schema/ListFeatureFlagsSchema';
 import { BaseTool } from '../BaseTool';
 import { VWORestAPI } from '../../services/VWORestAPI';
+import { formatFeatureFlagListResponse } from '../../utils/ResponseMessages';
 export class ListFeatureFlagsTool extends BaseTool {
   constructor() {
     const name = 'ListFeatureFlags';
@@ -30,15 +31,14 @@ export class ListFeatureFlagsTool extends BaseTool {
    * @param args - The arguments for the tool
    * @returns The result of the tool
    */
-  async execute(args: { limit?: number; offset?: number }): Promise<any> {
-    console.error('Getting list of feature flags', args);
+  async execute(args: { limit?: number; offset?: number; sdk: string }): Promise<any> {
     const result = await VWORestAPI.Instance.listFeatureFlags(args.limit, args.offset);
-    console.error('List of feature flags', result);
+    const response = formatFeatureFlagListResponse(result, args.sdk);
     return {
       content: [
         {
           type: 'text',
-          text: `Feature flags fetched successfully. Result: ${JSON.stringify(result)}`,
+          text: response,
         },
       ],
     };

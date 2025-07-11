@@ -22,6 +22,7 @@ The VWO MCP Server for FME empowers developers to manage feature flags effortles
 - **Comprehensive Feature Flag Management**: Easily create, view, list, update, and delete feature flags
 - **Environment-Specific Controls**: Toggle features on or off across different environments
 - **Cursor Rule Setup**: Bootstrapping simplifies the configuration of Cursor rules to deliver contextual results and integrate with the SDK
+-
 
 This tool helps developers save time by managing feature flags right where they code, without switching between different tools.
 
@@ -124,25 +125,34 @@ If you use a different client, refer to its documentation for how to add a custo
 
 Here's what you can do with our feature flag management tools:
 
-### Cursor Bootstrapping with VWO
+### IDE Configuration with VWO
 
-1. **Bootstrap VWO** - Retrieve cursor rules and configuration settings to seamlessly manage feature flags within your project. This enables smooth integration with your SDK and leverages VWO's feature management capabilities.
+1. **Add VWO Rules** - Retrieve IDE rules and configuration settings to seamlessly manage feature flags within your project. This enables smooth integration with your SDK and leverages VWO's feature management capabilities.
 
-📝**Note**: Currently supported only in the Cursor IDE. Needs to be called once after setting up VWO FME MCP.
+📝**Note**: Supports both Cursor IDE and VS Code. The tool automatically detects your IDE or you can specify it manually. Needs to be called once after setting up VWO FME MCP.
+
+- **Cursor IDE**: Creates rules in `.cursor/rules/vwo-feature-flag-rule.mdc`
+- **VS Code**: Creates instructions in `.github/instructions/vwo-fme.instructions.md`
 
 ### Feature Flags
 
-1. **Create Feature Flag** - Launch a new feature flag into your account with custom settings, metrics, and variables.
+1. **Create Feature Flag With Defaults** - Create a complete feature flag with variables, variations, associated metric, rules, and automatic enablement. This tool handles the entire setup process.
 
-2. **Delete Feature Flag** - Safely remove any feature flag from your account when it's no longer needed.
+2. **Create Feature Flag** - Create a new feature flag into your VWO account with mandatory requirements like variables, variations and metrics.
 
-3. **Get Feature Flag** - Dive into the details of any feature flag to see its current configuration and status.
+3. **Delete Feature Flag** - Safely remove any feature flag from your account when it's no longer needed.
 
-4. **List Feature Flags** - Get a bird's-eye view of all your feature flags in one place.
+4. **Get Feature Flag** - Dive into the details of any feature flag to see its current configuration and status.
 
-5. **Update Feature Flag** - Fine-tune your feature flags by modifying their properties, metrics, and variations.
+5. **List Feature Flags** - Get a bird's-eye view of all your feature flags in one place.
 
-6. **Toggle Feature Flag** - Instantly enable or disable feature flags in different environments with a single click.
+6. **Update Feature Flag** - Fine-tune your feature flags by modifying their properties, metrics, and variations.
+
+7. **Toggle Feature Flag** - Instantly enable or disable feature flags in different environments with a single click.
+
+8. **Find Stale Feature Flags** - Identify unused or stale feature flags in your codebase by scanning your source code and comparing against active feature flags. This helps maintain clean code by finding feature flags that are no longer referenced in your project.
+
+9. **Integrate SDK** - Get comprehensive SDK integration documentation and code examples for seamless feature flag implementation in your project. This tool provides language-specific integration guides without requiring Cursor rule files.
 
 ### Feature Flag Rules
 
@@ -156,7 +166,9 @@ Here's what you can do with our feature flag management tools:
 
 5. **Toggle Feature Flag Rule** - Enable or disable specific rules for your feature flags.
 
-6. **Delete Feature Flag Rule** - Remove unwanted rules from your feature flags.
+6. **Update Feature Flag Rules** - Modify existing feature flag rules to change their configuration or targeting.
+
+7. **Delete Feature Flag Rule** - Remove unwanted rules from your feature flags.
 
 ### Projects and Environments
 

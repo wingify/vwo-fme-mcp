@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-import { ToggleFeatureFlagAndRulesSchema } from '../../schema/ToggleFeatureFlagAndRulesSchema';
+import { ToggleFeatureFlagSchema } from '../../schema/ToggleFeatureFlagSchema';
 import { BaseTool } from '../BaseTool';
 import { VWORestAPI } from '../../services/VWORestAPI';
+import { formatGenericResponse } from '../../utils/ResponseMessages';
 
 export class ToggleFeatureFlagTool extends BaseTool {
   constructor() {
     const name = 'ToggleFeatureFlag';
     const description = 'Toggle a feature flag';
-    const inputSchema = ToggleFeatureFlagAndRulesSchema;
+    const inputSchema = ToggleFeatureFlagSchema;
 
     super(name, description, inputSchema);
   }
@@ -36,18 +37,22 @@ export class ToggleFeatureFlagTool extends BaseTool {
     environmentIdOrKey: string;
     featureIdOrKey: string;
     isEnabled: boolean;
+    sdk: string;
   }): Promise<any> {
-    console.error('Toggling feature flag', args);
     const result = await VWORestAPI.Instance.toggleFeatureFlag(
       args.environmentIdOrKey,
       args.featureIdOrKey,
       args.isEnabled,
     );
+    const response = formatGenericResponse(
+      `Feature flag "${args.featureIdOrKey}" toggled successfully. Result: ${JSON.stringify(result, null, 2)}`,
+      args.sdk,
+    );
     return {
       content: [
         {
           type: 'text',
-          text: `Feature flag "${args.featureIdOrKey}" toggled successfully. Result: ${JSON.stringify(result)}`,
+          text: response,
         },
       ],
     };

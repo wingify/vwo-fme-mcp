@@ -16,10 +16,11 @@
 import { ListFeatureFlagRulesSchema } from '../../schema/ListFeatureFlagRulesSchema';
 import { BaseTool } from '../BaseTool';
 import { VWORestAPI } from '../../services/VWORestAPI';
+import { formatGenericResponse } from '../../utils/ResponseMessages';
 
 export class ListFeatureFlagRulesTool extends BaseTool {
   constructor() {
-    const name = 'ListFeatureFlagRulesTool';
+    const name = 'ListFeatureFlagRules';
     const description = 'List all feature flag rules per environment';
     const inputSchema = ListFeatureFlagRulesSchema;
 
@@ -34,22 +35,26 @@ export class ListFeatureFlagRulesTool extends BaseTool {
   async execute(args: {
     environmentIdOrKey: string;
     featureIdOrKey: string;
+    sdk: string;
     limit?: number;
     offset?: number;
   }): Promise<any> {
-    console.error('Getting a feature flag', args);
     const result = await VWORestAPI.Instance.getFeatureFlagRules(
       args.environmentIdOrKey,
       args.featureIdOrKey,
       args.limit,
       args.offset,
     );
-    console.error('Feature flag', result);
+
+    const response = formatGenericResponse(
+      `Feature flag rules fetched successfully. Result: ${JSON.stringify(result, null, 2)}`,
+      args.sdk,
+    );
     return {
       content: [
         {
           type: 'text',
-          text: `FME Projects and associated Environments fetched successfully. Result: ${JSON.stringify(result)}`,
+          text: response,
         },
       ],
     };

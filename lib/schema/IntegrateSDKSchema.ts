@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import { z } from 'zod';
 import { SUPPORTED_SDK } from '../constants';
+import { z } from 'zod';
 
-export const ListFeatureFlagsSchema = {
-  limit: z.number().max(25).min(1).optional().default(10),
-  offset: z.number().min(0).optional().default(0),
+export const IntegrateSDKSchema = {
   sdk: z
     .enum(Object.values(SUPPORTED_SDK) as [string, ...string[]])
-    .describe('Check the SDK using the file extension and select the SDK accordingly.'),
+    .describe(
+      'The SDK to integrate the code for. Check the language using the file extension and select the SDK accordingly. Confirm the SDK before proceeding.',
+    ),
 };

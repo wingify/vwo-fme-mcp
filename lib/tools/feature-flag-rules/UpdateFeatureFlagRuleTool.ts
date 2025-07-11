@@ -13,34 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import { BaseTool } from '../BaseTool';
-import { GetMetricsSchema } from '../../schema/GetMetricsSchema';
 import { VWORestAPI } from '../../services/VWORestAPI';
 import { formatGenericResponse } from '../../utils/ResponseMessages';
+import { UpdateFeatureFlagRuleSchema } from '../../schema/UpdateFeatureFlagRuleSchema';
 
-export class GetMetricsTool extends BaseTool {
+export class UpdateFeatureFlagRuleTool extends BaseTool {
   constructor() {
-    const name = 'GetMetrics';
-    const description =
-      'Get the complete list of all available data360 metrics that can be used across the entire VWO account (not specific feature flag data)';
-    const inputSchema = GetMetricsSchema;
+    const name = 'UpdateFeatureFlagRule';
+    const description = 'Update a feature flag rule';
+    const inputSchema = UpdateFeatureFlagRuleSchema;
 
     super(name, description, inputSchema);
   }
 
   /**
-   * Get all available metrics
+   * Update a feature flag rule
    * @param args - The arguments for the tool
    * @returns The result of the tool
    */
-  async execute(args: { sdk: string }): Promise<any> {
-    const result = await VWORestAPI.Instance.getMetrics();
+  async execute(args: {
+    environmentIdOrKey: string;
+    featureIdOrKey: string;
+    ruleIdOrKey: string;
+    campaignData: any;
+    sdk: string;
+  }): Promise<any> {
+    const result = await VWORestAPI.Instance.updateFeatureFlagRule(
+      args.environmentIdOrKey,
+      args.featureIdOrKey,
+      args.ruleIdOrKey,
+      args.campaignData,
+    );
 
     const response = formatGenericResponse(
-      `Metrics fetched successfully. Result: ${JSON.stringify(result, null, 2)}`,
+      `Feature flag rule "${args.ruleIdOrKey}" updated successfully. Result: ${JSON.stringify(result, null, 2)}`,
       args.sdk,
-      true,
     );
     return {
       content: [

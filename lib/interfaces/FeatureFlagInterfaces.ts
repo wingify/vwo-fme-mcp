@@ -34,3 +34,19 @@ export interface IVariations {
   key: string;
   variables: IVariable[];
 }
+
+export interface IFeatureRuleCampaignData {
+  percentSplit: number;
+  variations?: IVariation[];
+}
+
+export interface IFeatureRules {
+  rules: IRule[];
+}
+
+export interface IRule {
+  name: string;
+  key: string;
+  type: string;
+  campaignData: IFeatureRuleCampaignData;
+}

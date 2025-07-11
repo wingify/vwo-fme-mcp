@@ -17,6 +17,9 @@ import { CreateFeatureFlagSchema } from '../../schema/CreateFeatureFlagSchema';
 import { BaseTool } from '../BaseTool';
 import { VWORestAPI } from '../../services/VWORestAPI';
 import { IGoals, IVariable } from '../../interfaces/FeatureFlagInterfaces';
+import { SUPPORTED_SDK } from '../../constants';
+import { formatFeatureFlagCreationResponse } from '../../utils/ResponseMessages';
+
 export class CreateFeatureFlagTool extends BaseTool {
   constructor() {
     const name = 'CreateFeatureFlag';
@@ -33,13 +36,13 @@ export class CreateFeatureFlagTool extends BaseTool {
    */
   async execute(args: {
     featureKey: string;
+    sdk: keyof typeof SUPPORTED_SDK;
     name?: string;
     description?: string;
     featureType?: string;
     goals?: IGoals[];
     variables?: IVariable[];
   }): Promise<any> {
-    console.error('Creating feature flag', args);
     const result = await VWORestAPI.Instance.createFeatureFlag(
       args.featureKey,
       args.name,
@@ -48,12 +51,13 @@ export class CreateFeatureFlagTool extends BaseTool {
       args.goals,
       args.variables,
     );
-    console.error('Feature flag created', result);
+
+    const response = formatFeatureFlagCreationResponse(args.featureKey, result, args.sdk);
     return {
       content: [
         {
           type: 'text',
-          text: `Feature flag "${args.featureKey}" created successfully. Result: ${JSON.stringify(result)}`,
+          text: response,
         },
       ],
     };

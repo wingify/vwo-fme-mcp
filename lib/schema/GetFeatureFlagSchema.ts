@@ -14,8 +14,12 @@
  * limitations under the License.
  */
 
+import { SUPPORTED_SDK } from '../constants';
 import { z } from 'zod';
 
 export const GetFeatureFlagSchema = {
   featureIdOrKey: z.string(),
+  sdk: z
+    .enum(Object.values(SUPPORTED_SDK) as [string, ...string[]])
+    .describe('Check the language using the file extension and select the SDK accordingly.'),
 };

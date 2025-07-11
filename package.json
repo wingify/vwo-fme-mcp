@@ -33,6 +33,7 @@
     "@modelcontextprotocol/sdk": "^1.7.0",
     "axios": "^1.8.4",
     "dotenv": "^16.5.0",
+    "glob": "^11.0.3",
     "vwo-fme-node-sdk": "^1.19.0",
     "zod": "^3.24.2"
   },

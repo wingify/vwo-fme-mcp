@@ -15,6 +15,8 @@
  */
 export const URL = {
   VWO_API: 'https://app.vwo.com/api/v2/accounts',
+  VWO_APP: 'https://app.vwo.com',
+  GITHUB_WINGIFY_BASE_URL: 'https://raw.githubusercontent.com/wingify/',
 };
 
 export const FEATURE_FLAG_TYPES = {
@@ -29,17 +31,34 @@ export const FEATURE_FLAG_PERSISTENCE_TYPES = {
   PERMANENT: 'PERMANENT',
 };
 
-export const CAMPAIGN_TYPES = {
-  FLAG_TESTING: 'flag-testing',
-};
-
 export const SUPPORTED_SDK = {
   NODE: 'node',
   JAVASCRIPT: 'javascript',
-  TYPESCRIPT: 'typescript',
+  NEXTJS: 'nextjs',
   JAVA: 'java',
   PYTHON: 'python',
-  REACT: 'react',
+  REACT: 'react-web',
   PHP: 'php',
   RUBY: 'ruby',
+  ANDROID: 'android',
+  DOTNET: 'dotnet',
+  FLUTTER: 'flutter',
+  IOS: 'ios',
+  REACT_NATIVE: 'react-native',
+  GO: 'go',
+};
+
+export const SUPPORTED_FILE_EXTENSIONS = {
+  RUBY: '.rb',
+  PYTHON: '.py',
+  JAVASCRIPT: '.js',
+  TYPESCRIPT: '.ts',
+  REACT: '.jsx',
+  REACT_TS: '.tsx',
+  PHP: '.php',
+  JAVA: '.java',
+  C_SHARP: '.cs',
+  KOTLIN: '.kt',
+  DART: '.dart',
+  SWIFT: '.swift',
 };

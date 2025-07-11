@@ -17,9 +17,10 @@
 import { z } from 'zod';
 import { SUPPORTED_SDK } from '../constants';
 
-export const ListFeatureFlagsSchema = {
-  limit: z.number().max(25).min(1).optional().default(10),
-  offset: z.number().min(0).optional().default(0),
+export const ToggleFeatureFlagSchema = {
+  isEnabled: z.boolean().default(true).describe('Toggle the feature flag on or off.'),
+  environmentIdOrKey: z.string().describe('The environment id or key of the environment.'),
+  featureIdOrKey: z.string().describe('The feature id or key of the feature.'),
   sdk: z
     .enum(Object.values(SUPPORTED_SDK) as [string, ...string[]])
     .describe('Check the SDK using the file extension and select the SDK accordingly.'),

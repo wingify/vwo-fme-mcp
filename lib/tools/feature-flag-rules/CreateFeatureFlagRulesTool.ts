@@ -14,33 +14,36 @@
  * limitations under the License.
  */
 
+import { CreateFeatureFlagRulesSchema } from '../../schema/CreateFeatureFlagRulesSchema';
 import { BaseTool } from '../BaseTool';
-import { GetMetricsSchema } from '../../schema/GetMetricsSchema';
 import { VWORestAPI } from '../../services/VWORestAPI';
+import { IFeatureRules } from '../../interfaces/FeatureFlagInterfaces';
 import { formatGenericResponse } from '../../utils/ResponseMessages';
 
-export class GetMetricsTool extends BaseTool {
+export class CreateFeatureFlagRulesTool extends BaseTool {
   constructor() {
-    const name = 'GetMetrics';
-    const description =
-      'Get the complete list of all available data360 metrics that can be used across the entire VWO account (not specific feature flag data)';
-    const inputSchema = GetMetricsSchema;
+    const name = 'CreateFeatureFlagRules';
+    const description = 'Create a single or multiple feature flag rules';
+    const inputSchema = CreateFeatureFlagRulesSchema;
 
     super(name, description, inputSchema);
   }
 
-  /**
-   * Get all available metrics
-   * @param args - The arguments for the tool
-   * @returns The result of the tool
-   */
-  async execute(args: { sdk: string }): Promise<any> {
-    const result = await VWORestAPI.Instance.getMetrics();
+  async execute(args: {
+    featureIdOrKey: string;
+    environmentIdOrKey: string;
+    featureRule: IFeatureRules;
+    sdk: string;
+  }): Promise<any> {
+    const createFeatureRuleResult = await VWORestAPI.Instance.createMultipleFeatureFlagRules(
+      args.environmentIdOrKey,
+      args.featureIdOrKey,
+      args.featureRule,
+    );
 
     const response = formatGenericResponse(
-      `Metrics fetched successfully. Result: ${JSON.stringify(result, null, 2)}`,
+      `Feature rules created successfully. Result: ${JSON.stringify(createFeatureRuleResult, null, 2)}`,
       args.sdk,
-      true,
     );
     return {
       content: [

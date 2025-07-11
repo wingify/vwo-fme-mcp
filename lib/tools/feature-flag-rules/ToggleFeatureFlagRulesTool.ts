@@ -14,33 +14,42 @@
  * limitations under the License.
  */
 
+import { ToggleFeatureFlagRulesSchema } from '../../schema/ToggleFeatureFlagRulesSchema';
 import { BaseTool } from '../BaseTool';
-import { GetMetricsSchema } from '../../schema/GetMetricsSchema';
 import { VWORestAPI } from '../../services/VWORestAPI';
 import { formatGenericResponse } from '../../utils/ResponseMessages';
 
-export class GetMetricsTool extends BaseTool {
+export class ToggleFeatureFlagRulesTool extends BaseTool {
   constructor() {
-    const name = 'GetMetrics';
-    const description =
-      'Get the complete list of all available data360 metrics that can be used across the entire VWO account (not specific feature flag data)';
-    const inputSchema = GetMetricsSchema;
+    const name = 'ToggleFeatureFlagRules';
+    const description = 'Toggle a single or multiple feature flag rules';
+    const inputSchema = ToggleFeatureFlagRulesSchema;
 
     super(name, description, inputSchema);
   }
 
   /**
-   * Get all available metrics
+   * Toggle a single or multiple feature flag rules
    * @param args - The arguments for the tool
    * @returns The result of the tool
    */
-  async execute(args: { sdk: string }): Promise<any> {
-    const result = await VWORestAPI.Instance.getMetrics();
+  async execute(args: {
+    environmentIdOrKey: string;
+    featureIdOrKey: string;
+    isEnabled: boolean;
+    sdk: string;
+    ruleIds?: number[];
+  }): Promise<any> {
+    const result = await VWORestAPI.Instance.toggleMultipleFeatureFlagRules(
+      args.environmentIdOrKey,
+      args.featureIdOrKey,
+      args.isEnabled,
+      args.ruleIds,
+    );
 
     const response = formatGenericResponse(
-      `Metrics fetched successfully. Result: ${JSON.stringify(result, null, 2)}`,
+      `Feature flag rules toggled successfully. Result: ${JSON.stringify(result, null, 2)}`,
       args.sdk,
-      true,
     );
     return {
       content: [

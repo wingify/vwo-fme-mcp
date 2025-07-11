@@ -14,39 +14,35 @@
  * limitations under the License.
  */
 
+import { IntegrateSDKSchema } from '../../schema/IntegrateSDKSchema';
 import { BaseTool } from '../BaseTool';
-import { GetMetricsSchema } from '../../schema/GetMetricsSchema';
-import { VWORestAPI } from '../../services/VWORestAPI';
-import { formatGenericResponse } from '../../utils/ResponseMessages';
+import { fetchFilteredSdkReadme } from '../../utils/GetDocumentationData';
 
-export class GetMetricsTool extends BaseTool {
+export class IntegrateSDKTool extends BaseTool {
   constructor() {
-    const name = 'GetMetrics';
-    const description =
-      'Get the complete list of all available data360 metrics that can be used across the entire VWO account (not specific feature flag data)';
-    const inputSchema = GetMetricsSchema;
+    const name = 'IntegrateVWOSDK';
+    const description = 'Integrate the VWO FME SDK code';
+    const inputSchema = IntegrateSDKSchema;
 
     super(name, description, inputSchema);
   }
 
   /**
-   * Get all available metrics
+   * Integrate the SDK code
    * @param args - The arguments for the tool
    * @returns The result of the tool
    */
   async execute(args: { sdk: string }): Promise<any> {
-    const result = await VWORestAPI.Instance.getMetrics();
+    const { sdk } = args;
 
-    const response = formatGenericResponse(
-      `Metrics fetched successfully. Result: ${JSON.stringify(result, null, 2)}`,
-      args.sdk,
-      true,
-    );
+    const sdkReadme = await fetchFilteredSdkReadme(sdk);
     return {
       content: [
         {
           type: 'text',
-          text: response,
+          text: `Below is the documentation for the SDK. Please implement and correctly integrate the feature flag according to the documentation.
+                ${sdkReadme}
+                `,
         },
       ],
     };

@@ -15,12 +15,8 @@
  */
 
 import { z } from 'zod';
-import { SUPPORTED_SDK } from '../constants';
 
-export const ListFeatureFlagsSchema = {
-  limit: z.number().max(25).min(1).optional().default(10),
-  offset: z.number().min(0).optional().default(0),
-  sdk: z
-    .enum(Object.values(SUPPORTED_SDK) as [string, ...string[]])
-    .describe('Check the SDK using the file extension and select the SDK accordingly.'),
+export const ListProjectAndEnvironmentsSchema = {
+  limit: z.number().optional().default(10),
+  offset: z.number().optional().default(0),
 };

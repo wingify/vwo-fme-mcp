@@ -17,6 +17,7 @@ import { UpdateFeatureFlagSchema } from '../../schema/UpdateFeatureFlagSchema';
 import { BaseTool } from '../BaseTool';
 import { VWORestAPI } from '../../services/VWORestAPI';
 import { IGoals, IVariable, IVariations } from '../../interfaces/FeatureFlagInterfaces';
+import { formatFeatureFlagUpdateResponse } from '../../utils/ResponseMessages';
 
 export class UpdateFeatureFlagTool extends BaseTool {
   constructor() {
@@ -34,13 +35,13 @@ export class UpdateFeatureFlagTool extends BaseTool {
    */
   async execute(args: {
     featureIdOrKey: string | number;
+    sdk: string;
     name?: string;
     description?: string;
     goals?: IGoals[];
     variables?: IVariable[];
     variations?: IVariations[];
   }): Promise<any> {
-    console.error('Updating feature flag', args);
     const result = await VWORestAPI.Instance.updateFeatureFlag(
       args.featureIdOrKey,
       args.name,
@@ -49,12 +50,13 @@ export class UpdateFeatureFlagTool extends BaseTool {
       args.variables,
       args.variations,
     );
-    console.error('Feature flag updated', result);
+
+    const response = formatFeatureFlagUpdateResponse(args.featureIdOrKey, result, args.sdk);
     return {
       content: [
         {
           type: 'text',
-          text: `Feature flag "${args.featureIdOrKey}" updated successfully. Result: ${JSON.stringify(result)}`,
+          text: response,
         },
       ],
     };

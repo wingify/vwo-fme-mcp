@@ -16,6 +16,7 @@
 import { GetFeatureFlagRuleSchema } from '../../schema/GetFeatureFlagRuleSchema';
 import { BaseTool } from '../BaseTool';
 import { VWORestAPI } from '../../services/VWORestAPI';
+import { formatGenericResponse } from '../../utils/ResponseMessages';
 
 export class GetFeatureFlagRuleTool extends BaseTool {
   constructor() {
@@ -35,18 +36,23 @@ export class GetFeatureFlagRuleTool extends BaseTool {
     environmentIdOrKey: string;
     featureIdOrKey: string;
     ruleId: string;
+    sdk: string;
   }): Promise<any> {
-    console.error('Getting a feature flag rule', args);
     const result = await VWORestAPI.Instance.getFeatureFlagRule(
       args.environmentIdOrKey,
       args.featureIdOrKey,
       args.ruleId,
     );
+
+    const response = formatGenericResponse(
+      `Feature flag rule "${args.ruleId}" get successfully. Result: ${JSON.stringify(result, null, 2)}`,
+      args.sdk,
+    );
     return {
       content: [
         {
           type: 'text',
-          text: `Feature flag rule "${args.ruleId}" get successfully. Result: ${JSON.stringify(result)}`,
+          text: response,
         },
       ],
     };

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { BootStrapVWO } from './fetch-cursor-rules/BootStrapVWO';
+export { AddVWORulesTool } from './fetch-ide-rules/AddVWORulesTool';
 
 export { CreateFeatureFlagTool } from './feature-flags/CreateFeatureFlagTool';
 export { DeleteFeatureFlagTool } from './feature-flags/DeleteFeatureFlagTool';
@@ -21,14 +21,19 @@ export { GetFeatureFlagTool } from './feature-flags/GetFeatureFlagTool';
 export { ListFeatureFlagsTool } from './feature-flags/ListFeatureFlagsTool';
 export { UpdateFeatureFlagTool } from './feature-flags/UpdateFeatureFlagTool';
 
-export { CreateRolloutAndPersonalizeRuleTool } from './feature-flag-rules/CreateRolloutAndPersonalizeRuleTool';
-export { CreateTestingAndMVTRuleTool } from './feature-flag-rules/CreateTestingAndMVTRuleTool';
+export { CreateFeatureFlagRulesTool } from './feature-flag-rules/CreateFeatureFlagRulesTool';
 export { GetFeatureFlagRuleTool } from './feature-flag-rules/GetFeatureFlagRuleTool';
 export { ListFeatureFlagRulesTool } from './feature-flag-rules/ListFeatureFlagRulesTool';
-export { ToggleFeatureFlagRuleTool } from './feature-flag-rules/ToggleFeatureFlagRuleTool';
+export { ToggleFeatureFlagRulesTool } from './feature-flag-rules/ToggleFeatureFlagRulesTool';
 export { ToggleFeatureFlagTool } from './feature-flags/ToggleFeatureFlagTool';
 export { DeleteFeatureFlagRuleTool } from './feature-flag-rules/DeleteFeatureFlagRuleTool';
+export { UpdateFeatureFlagRuleTool } from './feature-flag-rules/UpdateFeatureFlagRuleTool';
 
 export { GetMetricsTool } from './metrics/GetMetricsTool';
 
-export { ListProjectsAndEnvironmentsTool } from './projects-n-environments/ListProjectsAndEnvironmentsTool';
+export { ListProjectAndEnvironmentsTool } from './projects-n-environments/ListProjectAndEnvironmentsTool';
+
+export { CreateFeatureFlagWithDefaultsTool } from './feature-flags/CreateFeatureFlagWithDefaultsTool';
+
+export { FindStaleFeatureFlagsTool } from './feature-flags/FindStaleFeatureFlagsTool';
+export { IntegrateSDKTool } from './feature-flags/IntegrateSDKTool';

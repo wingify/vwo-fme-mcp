@@ -15,38 +15,31 @@
  */
 
 import { BaseTool } from '../BaseTool';
-import { GetMetricsSchema } from '../../schema/GetMetricsSchema';
-import { VWORestAPI } from '../../services/VWORestAPI';
-import { formatGenericResponse } from '../../utils/ResponseMessages';
+import { writeCursorRuleToUserDir } from '../../utils/WriteIDERulesUtil';
+import { AddVWORulesSchema } from '../../schema/AddVWORulesSchema';
 
-export class GetMetricsTool extends BaseTool {
+export class AddVWORulesTool extends BaseTool {
   constructor() {
-    const name = 'GetMetrics';
-    const description =
-      'Get the complete list of all available data360 metrics that can be used across the entire VWO account (not specific feature flag data)';
-    const inputSchema = GetMetricsSchema;
+    const name = 'AddVWORules';
+    const description = 'Add VWO Rules';
+    const inputSchema = AddVWORulesSchema;
 
     super(name, description, inputSchema);
   }
 
   /**
-   * Get all available metrics
+   * BootStrap VWO
    * @param args - The arguments for the tool
    * @returns The result of the tool
    */
-  async execute(args: { sdk: string }): Promise<any> {
-    const result = await VWORestAPI.Instance.getMetrics();
-
-    const response = formatGenericResponse(
-      `Metrics fetched successfully. Result: ${JSON.stringify(result, null, 2)}`,
-      args.sdk,
-      true,
-    );
+  async execute(args: { targetDir: string; sdk: string; whichIde: string }): Promise<any> {
+    console.error('Adding VWO Rules', args);
+    writeCursorRuleToUserDir(args.targetDir, args.sdk, args.whichIde);
     return {
       content: [
         {
           type: 'text',
-          text: response,
+          text: `Adding VWO Rules done.`,
         },
       ],
     };

@@ -15,8 +15,10 @@
  */
 
 import { z } from 'zod';
-import { CAMPAIGN_TYPES } from '../constants';
+import { SUPPORTED_SDK } from '../constants';
 
 export const GetMetricsSchema = {
-  campaignType: z.enum([CAMPAIGN_TYPES.FLAG_TESTING]).default(CAMPAIGN_TYPES.FLAG_TESTING),
+  sdk: z
+    .enum(Object.values(SUPPORTED_SDK) as [string, ...string[]])
+    .describe('Check the SDK using the file extension and select the SDK accordingly.'),
 };

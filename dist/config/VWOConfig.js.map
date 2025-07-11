@@ -1,1 +1,0 @@
-{"version":3,"file":"VWOConfig.js","sourceRoot":"","sources":["../../lib/config/VWOConfig.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;;;;;;;;;;;;;;GAcG;AACH,+CAAiC;AAEjC,MAAM,CAAC,MAAM,EAAE,CAAC;AAEH,QAAA,SAAS,GAAG;IACvB,SAAS,EAAE,OAAO,CAAC,GAAG,CAAC,cAAc;IACrC,MAAM,EAAE,OAAO,CAAC,GAAG,CAAC,WAAW;CAChC,CAAC"}

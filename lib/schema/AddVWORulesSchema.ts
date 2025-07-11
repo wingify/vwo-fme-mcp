@@ -17,10 +17,12 @@
 import { z } from 'zod';
 import { SUPPORTED_SDK } from '../constants';
 
-export const ListFeatureFlagsSchema = {
-  limit: z.number().max(25).min(1).optional().default(10),
-  offset: z.number().min(0).optional().default(0),
+export const AddVWORulesSchema = {
+  targetDir: z.string().describe('The current working directory to write the cursor rules'),
   sdk: z
     .enum(Object.values(SUPPORTED_SDK) as [string, ...string[]])
-    .describe('Check the SDK using the file extension and select the SDK accordingly.'),
+    .describe(
+      'Check the SDK using the file extension and select the SDK accordingly. Confirm the SDK before proceeding.',
+    ),
+  whichIde: z.enum(['cursor', 'vscode']).describe('The IDE to write the cursor rules for'),
 };

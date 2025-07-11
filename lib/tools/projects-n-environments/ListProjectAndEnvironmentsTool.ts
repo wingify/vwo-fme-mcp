@@ -13,35 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+import { ListProjectAndEnvironmentsSchema } from '../../schema/ListProjectAndEnvironmentsSchema';
 import { BaseTool } from '../BaseTool';
-import { GetMetricsSchema } from '../../schema/GetMetricsSchema';
 import { VWORestAPI } from '../../services/VWORestAPI';
-import { formatGenericResponse } from '../../utils/ResponseMessages';
+import { formatProjectsAndEnvironmentsResponse } from '../../utils/ResponseMessages';
 
-export class GetMetricsTool extends BaseTool {
+export class ListProjectAndEnvironmentsTool extends BaseTool {
   constructor() {
-    const name = 'GetMetrics';
-    const description =
-      'Get the complete list of all available data360 metrics that can be used across the entire VWO account (not specific feature flag data)';
-    const inputSchema = GetMetricsSchema;
+    const name = 'ListProjectAndEnvironments';
+    const description = 'List FME project and associated environments';
+    const inputSchema = ListProjectAndEnvironmentsSchema;
 
     super(name, description, inputSchema);
   }
 
   /**
-   * Get all available metrics
+   * List all projects and associated environments
    * @param args - The arguments for the tool
    * @returns The result of the tool
    */
-  async execute(args: { sdk: string }): Promise<any> {
-    const result = await VWORestAPI.Instance.getMetrics();
-
-    const response = formatGenericResponse(
-      `Metrics fetched successfully. Result: ${JSON.stringify(result, null, 2)}`,
-      args.sdk,
-      true,
-    );
+  async execute(args: { limit?: number; offset?: number }): Promise<any> {
+    const result = await VWORestAPI.Instance.getProjectsAndEnvironments();
+    const response = formatProjectsAndEnvironmentsResponse(result);
     return {
       content: [
         {

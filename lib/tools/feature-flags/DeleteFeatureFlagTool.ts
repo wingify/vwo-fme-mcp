@@ -31,14 +31,12 @@ export class DeleteFeatureFlagTool extends BaseTool {
    * @returns The result of the tool
    */
   async execute(args: { featureIdOrKey: string | number }): Promise<any> {
-    console.error('Deleting feature flag', args);
     const result = await VWORestAPI.Instance.deleteFeatureFlag(args.featureIdOrKey);
-    console.error('Feature flag deleted', result);
     return {
       content: [
         {
           type: 'text',
-          text: `Feature flag "${args.featureIdOrKey}" deleted successfully. Result: ${JSON.stringify(result)}`,
+          text: `Feature flag "${args.featureIdOrKey}" deleted successfully. Result: ${JSON.stringify(result, null, 2)}`,
         },
       ],
     };
